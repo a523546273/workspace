@@ -17,10 +17,11 @@
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="groupid" jdbcType="INTEGER" property="groupid" />
     <result column="tagid_list" jdbcType="VARCHAR" property="tagidList" />
+    <result column="session_key" jdbcType="VARCHAR" property="sessionKey"/>
   </resultMap>
   <sql id="Base_Column_List">
     id, subscribe, openid, nickname, sex, city, country, province, `language`, headimgurl, 
-    subscribe_time, unionid, remark, groupid, tagid_list
+    subscribe_time, unionid, remark, groupid, tagid_list, session_key
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -28,23 +29,32 @@
     from wxuserinfo
     where id = #{id,jdbcType=INTEGER}
   </select>
+
+  <select id="selectByOpenid" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from wxuserinfo
+    where openid = #{openid,jdbcType=VARCHAR}
+  </select>
+
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from wxuserinfo
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.whw.layui.po.Wxuserinfo" useGeneratedKeys="true">
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.whw.layui.po.WeiXinUserInfoPo" useGeneratedKeys="true">
     insert into wxuserinfo (subscribe, openid, nickname, 
       sex, city, country, 
       province, `language`, headimgurl, 
       subscribe_time, unionid, remark, 
-      groupid, tagid_list)
+      groupid, tagid_list,session_key)
     values (#{subscribe,jdbcType=INTEGER}, #{openid,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR}, 
       #{sex,jdbcType=INTEGER}, #{city,jdbcType=VARCHAR}, #{country,jdbcType=VARCHAR}, 
       #{province,jdbcType=VARCHAR}, #{language,jdbcType=VARCHAR}, #{headimgurl,jdbcType=VARCHAR}, 
       #{subscribeTime,jdbcType=VARCHAR}, #{unionid,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
-      #{groupid,jdbcType=INTEGER}, #{tagidList,jdbcType=VARCHAR})
+      #{groupid,jdbcType=INTEGER}, #{tagidList,jdbcType=VARCHAR} ,#{sessionKey,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.whw.layui.po.Wxuserinfo" useGeneratedKeys="true">
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.whw.layui.po.WeiXinUserInfoPo" useGeneratedKeys="true">
     insert into wxuserinfo
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="subscribe != null">
@@ -135,7 +145,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.whw.layui.po.Wxuserinfo">
+  <update id="updateByPrimaryKeySelective" parameterType="com.whw.layui.po.WeiXinUserInfoPo">
     update wxuserinfo
     <set>
       <if test="subscribe != null">
@@ -183,7 +193,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.whw.layui.po.Wxuserinfo">
+  <update id="updateByPrimaryKey" parameterType="com.whw.layui.po.WeiXinUserInfoPo">
     update wxuserinfo
     set subscribe = #{subscribe,jdbcType=INTEGER},
       openid = #{openid,jdbcType=VARCHAR},

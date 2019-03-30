@@ -38,6 +38,8 @@ public class WeiXinUserInfoPo {
 
     private String tagidList;
 
+    private String sessionKey;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -158,5 +160,13 @@ public class WeiXinUserInfoPo {
 
     public void setTagidList(String tagidList) {
         this.tagidList = tagidList;
+    }
+
+    public String getSessionKey() {
+        return sessionKey;
+    }
+
+    public void setSessionKey(String sessionKey) {
+        this.sessionKey = sessionKey;
     }
 }

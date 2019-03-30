@@ -8,4 +8,5 @@ public interface WeiXinUserInfoDao {
 
     int insert(WeiXinUserInfoPo weiXinUserInfoPo);
 
+    WeiXinUserInfoPo selectByOpenid(String openid);
 }

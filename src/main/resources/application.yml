@@ -3,7 +3,7 @@ spring:
     active: a
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://47.107.36.47:3306/workspace
+    url: jdbc:mysql://127.0.0.1:3306/workspace
     username: root
     password: root
 
@@ -31,5 +31,11 @@ server:
 
 mybatis:
   config-location: classpath:mybatis/mybatis.cfg.xml    # mybatis配置文件所在路径
-  type-aliases-package: com.whw.layui.po           # 定义所有操作类的别名所在包
+  type-aliases-package: com.whw.layui.dao           # 定义所有操作类的别名所在包
   mapper-locations: classpath:com/whw/layui/dao/*.xml
+
+wx:
+  appid: wx6eb1669875992729
+  secret: 4a624e79f0c2ddf33e615e8452cf6929
+  grant-type: authorization_code
+  subscribe: 20
