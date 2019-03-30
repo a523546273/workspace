@@ -13,7 +13,7 @@ spring:
     show-sql: true
 
   redis:
-    database: 0
+    database: 1
     host: 127.0.0.1
     port: 6379
     password: password123
@@ -23,3 +23,13 @@ spring:
       max-wait: -1
       max-idle: 8
       min-idle: 0
+
+server:
+  port: 8080
+  tomcat:
+    uri-encoding: UTF-8
+
+mybatis:
+  config-location: classpath:mybatis/mybatis.cfg.xml    # mybatis配置文件所在路径
+  type-aliases-package: com.whw.layui.po           # 定义所有操作类的别名所在包
+  mapper-locations: classpath:com/whw/layui/dao/*.xml
