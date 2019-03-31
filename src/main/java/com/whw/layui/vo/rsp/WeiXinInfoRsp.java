@@ -1,18 +1,20 @@
-package com.whw.layui.vo;
+package com.whw.layui.vo.rsp;
 
 /**
  * Created with IDEA
  * author:wanghongwei
- * Date:2019/3/30
- * Time:17:01
+ * Date:2019/3/31
+ * Time:21:02
  */
-public class OpenidVo {
+public class WeiXinInfoRsp {
 
     private String session_key;
 
     private String openid;
 
     private Integer subscribe;
+
+    private int count;
 
     public String getSession_key() {
         return session_key;
@@ -36,5 +38,13 @@ public class OpenidVo {
 
     public void setSubscribe(Integer subscribe) {
         this.subscribe = subscribe;
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
     }
 }

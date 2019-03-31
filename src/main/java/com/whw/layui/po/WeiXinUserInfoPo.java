@@ -1,5 +1,7 @@
 package com.whw.layui.po;
 
+import java.util.Date;
+
 /**
  * Created with IDEA
  * author:wanghongwei
@@ -39,6 +41,8 @@ public class WeiXinUserInfoPo {
     private String tagidList;
 
     private String sessionKey;
+
+    private Date memberTime;
 
     private static final long serialVersionUID = 1L;
 
@@ -168,5 +172,13 @@ public class WeiXinUserInfoPo {
 
     public void setSessionKey(String sessionKey) {
         this.sessionKey = sessionKey;
+    }
+
+    public Date getMemberTime() {
+        return memberTime;
+    }
+
+    public void setMemberTime(Date memberTime) {
+        this.memberTime = memberTime;
     }
 }

@@ -4,11 +4,12 @@ import com.alibaba.fastjson.JSONObject;
 import com.whw.layui.config.RedisConfig;
 import com.whw.layui.enums.ResultEnums;
 import com.whw.layui.po.WeiXinUserInfoPo;
+import com.whw.layui.service.AttendanceService;
 import com.whw.layui.service.WeiXinUserInfoService;
 import com.whw.layui.utils.HttpClientUtil;
 import com.whw.layui.utils.ResponseData;
 import com.whw.layui.utils.ResponseDataUtil;
-import com.whw.layui.vo.OpenidVo;
+import com.whw.layui.vo.rsp.WeiXinInfoRsp;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -48,8 +49,11 @@ public class WxLoginController {
     @Autowired
     private WeiXinUserInfoService weiXinUserInfoService;
 
+    @Autowired
+    private AttendanceService attendanceService;
+
     @PostMapping("/login/wxLogin")
-    public ResponseData<OpenidVo> wxLogin(String code) {
+    public ResponseData<WeiXinInfoRsp> wxLogin(String code) {
 
         //String wxUrl = "?appid=APPID&secret=SECRET&js_code=JSCODE&grant_type=authorization_code";
         if (StringUtils.isBlank(code)) {
@@ -63,26 +67,29 @@ public class WxLoginController {
         String json = HttpClientUtil.doGet(WXURL, map);
 
         System.out.println(json);
-        OpenidVo openidVo = JSONObject.parseObject(json, OpenidVo.class);
+        WeiXinInfoRsp weiXinInfoRsp = JSONObject.parseObject(json, WeiXinInfoRsp.class);
 
         //存入session到redis
 
         // redisConfig.set("user-redis-session:" + wxSessionPo.getOpenid(), wxSessionPo.getSession_key(), 1000L * 60 * 30);
 
-        if (openidVo != null) {
+        if (weiXinInfoRsp != null) {
             try {
                 WeiXinUserInfoPo weiXinUserInfoPo = new WeiXinUserInfoPo();
-                weiXinUserInfoPo.setOpenid(openidVo.getOpenid());
-                weiXinUserInfoPo.setSessionKey(openidVo.getSession_key());
+                weiXinUserInfoPo.setOpenid(weiXinInfoRsp.getOpenid());
+                weiXinUserInfoPo.setSessionKey(weiXinInfoRsp.getSession_key());
                 //默认只有20次
                 weiXinUserInfoPo.setSubscribe(subscribe);
                 weiXinUserInfoService.add(weiXinUserInfoPo);
 
                 //获取用户可以再次下载的次数
-                WeiXinUserInfoPo result = weiXinUserInfoService.selectByOpenid(openidVo.getOpenid());
-                openidVo.setSubscribe(result.getSubscribe());
+                WeiXinUserInfoPo result = weiXinUserInfoService.selectByOpenid(weiXinInfoRsp.getOpenid());
+                weiXinInfoRsp.setSubscribe(result.getSubscribe());
 
-                return ResponseDataUtil.buildSuccess(openidVo);
+                //获取用户签到次数
+                int count = attendanceService.selectCount(weiXinInfoRsp.getOpenid());
+                weiXinInfoRsp.setCount(count);
+                return ResponseDataUtil.buildSuccess(weiXinInfoRsp);
             } catch (Exception e) {
                 e.printStackTrace();
                 return ResponseDataUtil.buildError(ResultEnums.SYSTEM_ERROR);

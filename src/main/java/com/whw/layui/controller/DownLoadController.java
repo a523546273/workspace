@@ -34,7 +34,6 @@ public class DownLoadController {
 
     }
 
-
     @PostMapping("/down/downSuccess")
     public ResponseData downSuccess(String openid) {
         if (StringUtils.isBlank(openid)) {
@@ -49,5 +48,18 @@ public class DownLoadController {
         return ResponseDataUtil.buildSuccess();
     }
 
+    @PostMapping("/down/doShare")
+    public ResponseData doShare(String openid) {
+        if (StringUtils.isBlank(openid)) {
+            return ResponseDataUtil.buildError(ResultEnums.PARAM_ERROR);
+        }
+        try {
+            weiXinUserInfoService.downShare(openid);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseDataUtil.buildError(ResultEnums.SYSTEM_ERROR);
+        }
+        return ResponseDataUtil.buildSuccess();
+    }
 
 }

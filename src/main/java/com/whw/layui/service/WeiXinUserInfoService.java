@@ -28,6 +28,12 @@ public interface WeiXinUserInfoService {
      * 用户下载成功后回调  可下载次数减1
      * @param openid
      */
-    void downSuccess(String openid);
+    void downSuccess(String openid) throws Exception;
+
+    /**
+     * 用户下载成功后
+     * @param openid
+     */
+    void downShare(String openid);
 
 }
