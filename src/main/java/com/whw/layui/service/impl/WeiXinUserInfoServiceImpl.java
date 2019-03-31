@@ -30,4 +30,11 @@ public class WeiXinUserInfoServiceImpl implements WeiXinUserInfoService {
     public WeiXinUserInfoPo selectByOpenid(String openid) {
         return weiXinUserInfoDao.selectByOpenid(openid);
     }
+
+    @Override
+    public void downSuccess(String openid) {
+        WeiXinUserInfoPo po = weiXinUserInfoDao.selectByOpenid(openid);
+        po.setSubscribe(po.getSubscribe()-1);
+        weiXinUserInfoDao.updateByPrimaryKey(po);
+    }
 }

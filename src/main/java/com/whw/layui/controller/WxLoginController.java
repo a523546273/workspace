@@ -9,6 +9,7 @@ import com.whw.layui.utils.HttpClientUtil;
 import com.whw.layui.utils.ResponseData;
 import com.whw.layui.utils.ResponseDataUtil;
 import com.whw.layui.vo.OpenidVo;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -47,11 +48,13 @@ public class WxLoginController {
     @Autowired
     private WeiXinUserInfoService weiXinUserInfoService;
 
-    @PostMapping("/wxLogin")
+    @PostMapping("/login/wxLogin")
     public ResponseData<OpenidVo> wxLogin(String code) {
 
         //String wxUrl = "?appid=APPID&secret=SECRET&js_code=JSCODE&grant_type=authorization_code";
-
+        if (StringUtils.isBlank(code)) {
+            ResponseDataUtil.buildError(ResultEnums.PARAM_ERROR);
+        }
         Map<String, String> map = new HashMap<>();
         map.put("appid", appid);
         map.put("secret", secret);
@@ -74,6 +77,12 @@ public class WxLoginController {
                 //默认只有20次
                 weiXinUserInfoPo.setSubscribe(subscribe);
                 weiXinUserInfoService.add(weiXinUserInfoPo);
+
+                //获取用户可以再次下载的次数
+                WeiXinUserInfoPo result = weiXinUserInfoService.selectByOpenid(openidVo.getOpenid());
+                openidVo.setSubscribe(result.getSubscribe());
+
+                return ResponseDataUtil.buildSuccess(openidVo);
             } catch (Exception e) {
                 e.printStackTrace();
                 return ResponseDataUtil.buildError(ResultEnums.SYSTEM_ERROR);
@@ -81,7 +90,7 @@ public class WxLoginController {
         } else {
             return ResponseDataUtil.buildError(ResultEnums.SYSTEM_ERROR);
         }
-        return ResponseDataUtil.buildSuccess(openidVo);
+
     }
 
     @PostMapping("/selectByOpenid/{openid}")

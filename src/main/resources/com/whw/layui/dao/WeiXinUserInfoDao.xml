@@ -208,7 +208,8 @@
       unionid = #{unionid,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR},
       groupid = #{groupid,jdbcType=INTEGER},
-      tagid_list = #{tagidList,jdbcType=VARCHAR}
+      tagid_list = #{tagidList,jdbcType=VARCHAR},
+      session_key = #{sessionKey,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

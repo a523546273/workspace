@@ -1,79 +1,53 @@
 package com.whw.layui.controller;
 
+import com.whw.layui.enums.ResultEnums;
+import com.whw.layui.service.WeiXinUserInfoService;
+import com.whw.layui.utils.ParseUrlUtils;
+import com.whw.layui.utils.ResponseData;
+import com.whw.layui.utils.ResponseDataUtil;
 import org.apache.commons.lang.StringUtils;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.HashMap;
-import java.util.Map;
 
-@Controller
+@RestController
 public class DownLoadController {
 
+    @Autowired
+    private WeiXinUserInfoService weiXinUserInfoService;
 
-    @RequestMapping(value = "/download")
-    @ResponseBody
-    public Map<String, Object> dowload(HttpServletRequest request,
-                                       HttpServletResponse response) throws Exception {
-        Map<String, Object> map = new HashMap<String, Object>();
-        String url = request.getParameter("url");
-        String type = request.getParameter("type");
-        String url1 = null;
-        if ("kuaishou".equals(type)) {
-            url1 = this.downLoad1(url);
+    @PostMapping(value = "/down/download")
+    public ResponseData<String> dowload(String url) {
+
+        if (StringUtils.isBlank(url)) {
+            return ResponseDataUtil.buildError(ResultEnums.PARAM_ERROR);
         }
 
-        /*
-         * String fileName=FileUtil.getFileName(url1); String
-         * path=localFile+"\\"+fileName; File file = new File(path);
-         *
-         * String returnURl=PathUtil.getLocalFile(request)+"/upload/"+fileName;
-         *
-         * if (file.exists()) { file.delete(); }
-         *
-         * URL url2 = new URL(url1); FileUtils.copyURLToFile(url2, file);
-         */
+        String url1 = ParseUrlUtils.downLoad(url);
 
         if (StringUtils.isBlank(url1)) {
-            map.put("success", false);
+            return ResponseDataUtil.buildError(ResultEnums.SYSTEM_ERROR);
         } else {
-            map.put("success", true);
-            map.put("downUrl", url1);
+            return ResponseDataUtil.buildSuccess(url1);
         }
 
-        return map;
     }
 
-    private String downLoad1(String url) {
-        Document doc = null;
-        try {
-            doc = Jsoup.connect(url).timeout(12138).get();
-            Elements elem = doc.getElementsByTag("script");
-            String replaceAll = null;
-            for (int i = 0; i < elem.size(); i++) {
-                Element e = elem.get(i);
-                String url1 = e.toString();
-                // System.out.println(url1);
-                int start = url1.indexOf("playUrl\":\"https:");
-                if (start == -1) {
-                    continue;
-                }
-                url1 = url1.substring(start);
-                int end = url1.indexOf("\",");
-                replaceAll = url1.substring(10, end);
 
-            }
-            return replaceAll;
+    @PostMapping("/down/downSuccess")
+    public ResponseData downSuccess(String openid) {
+        if (StringUtils.isBlank(openid)) {
+            return ResponseDataUtil.buildError(ResultEnums.PARAM_ERROR);
+        }
+        try {
+            weiXinUserInfoService.downSuccess(openid);
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
+            return ResponseDataUtil.buildError(ResultEnums.SYSTEM_ERROR);
         }
+        return ResponseDataUtil.buildSuccess();
     }
+
+
 }

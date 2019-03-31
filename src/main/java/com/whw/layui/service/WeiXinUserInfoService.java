@@ -24,4 +24,10 @@ public interface WeiXinUserInfoService {
      */
     WeiXinUserInfoPo selectByOpenid(String openid);
 
+    /**
+     * 用户下载成功后回调  可下载次数减1
+     * @param openid
+     */
+    void downSuccess(String openid);
+
 }
