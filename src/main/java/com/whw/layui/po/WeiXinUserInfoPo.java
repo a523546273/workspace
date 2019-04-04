@@ -34,6 +34,9 @@ public class WeiXinUserInfoPo {
 
     private String unionid;
 
+    /**
+     * 随机6位编码
+     */
     private String remark;
 
     private Integer groupid;
@@ -43,6 +46,8 @@ public class WeiXinUserInfoPo {
     private String sessionKey;
 
     private Date memberTime;
+
+    private String inviteCode;
 
     private static final long serialVersionUID = 1L;
 
@@ -180,5 +185,13 @@ public class WeiXinUserInfoPo {
 
     public void setMemberTime(Date memberTime) {
         this.memberTime = memberTime;
+    }
+
+    public String getInviteCode() {
+        return inviteCode;
+    }
+
+    public void setInviteCode(String inviteCode) {
+        this.inviteCode = inviteCode;
     }
 }

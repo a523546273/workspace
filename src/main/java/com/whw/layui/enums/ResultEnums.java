@@ -11,10 +11,12 @@ public enum ResultEnums {
     SUCCESS("0", "请求成功"),
     ERROR("1", "请求失败"),
     NULL_USER("10002","查询用户信息失败"),
-    SYSTEM_ERROR("10001", "系统异常"),
+    SYSTEM_ERROR("10001", "请求服务器异常"),
     BUSSINESS_ERROR("20001", "业务逻辑错误"),
     VERIFY_CODE_ERROR("20002", "业务参数错误"),
-    PARAM_ERROR("20002", "业务参数错误");
+    PARAM_ERROR("20002", "业务参数错误"),
+    NUM_ERROR_3("20003", "每天限三条建议"),
+    ATTENDANCE_ERROE("20004", "今日已经签到!");
 
 
     private String code;

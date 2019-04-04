@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.whw.layui.dao.WxuserAdviceDao">
+  <resultMap id="BaseResultMap" type="com.whw.layui.po.WxuserAdvicePo">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="openid" jdbcType="VARCHAR" property="openid" />
+    <result column="advice" jdbcType="VARCHAR" property="advice" />
+    <result column="wechat_number" jdbcType="VARCHAR" property="wechatNumber" />
+    <result column="disable_url" jdbcType="VARCHAR" property="disableUrl" />
+    <result column="photo" jdbcType="VARCHAR" property="photo" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, openid, advice, wechat_number, disable_url, photo, create_date
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from wxuser_advice
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from wxuser_advice
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.whw.layui.po.WxuserAdvicePo" useGeneratedKeys="true">
+    insert into wxuser_advice (openid, advice, wechat_number, 
+      disable_url, photo, create_date
+      )
+    values (#{openid,jdbcType=VARCHAR}, #{advice,jdbcType=VARCHAR}, #{wechatNumber,jdbcType=VARCHAR}, 
+      #{disableUrl,jdbcType=VARCHAR}, #{photo,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.whw.layui.po.WxuserAdvicePo" useGeneratedKeys="true">
+    insert into wxuser_advice
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="openid != null">
+        openid,
+      </if>
+      <if test="advice != null">
+        advice,
+      </if>
+      <if test="wechatNumber != null">
+        wechat_number,
+      </if>
+      <if test="disableUrl != null">
+        disable_url,
+      </if>
+      <if test="photo != null">
+        photo,
+      </if>
+      <if test="createDate != null">
+        create_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="openid != null">
+        #{openid,jdbcType=VARCHAR},
+      </if>
+      <if test="advice != null">
+        #{advice,jdbcType=VARCHAR},
+      </if>
+      <if test="wechatNumber != null">
+        #{wechatNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="disableUrl != null">
+        #{disableUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="photo != null">
+        #{photo,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.whw.layui.po.WxuserAdvicePo">
+    update wxuser_advice
+    <set>
+      <if test="openid != null">
+        openid = #{openid,jdbcType=VARCHAR},
+      </if>
+      <if test="advice != null">
+        advice = #{advice,jdbcType=VARCHAR},
+      </if>
+      <if test="wechatNumber != null">
+        wechat_number = #{wechatNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="disableUrl != null">
+        disable_url = #{disableUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="photo != null">
+        photo = #{photo,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.whw.layui.po.WxuserAdvicePo">
+    update wxuser_advice
+    set openid = #{openid,jdbcType=VARCHAR},
+      advice = #{advice,jdbcType=VARCHAR},
+      wechat_number = #{wechatNumber,jdbcType=VARCHAR},
+      disable_url = #{disableUrl,jdbcType=VARCHAR},
+      photo = #{photo,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="getListByOpenid" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from wxuser_advice
+    where openid = #{openid,jdbcType=VARCHAR}
+    and date_format(create_date,'%Y-%m-%d') = date_format(sysdate(),'%Y-%m-%d')
+  </select>
+</mapper>

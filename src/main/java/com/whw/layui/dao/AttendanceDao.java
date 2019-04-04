@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface AttendanceDao {
+
     int deleteByPrimaryKey(Integer id);
 
     int insert(AttendancePo record);
@@ -19,4 +20,6 @@ public interface AttendanceDao {
     int updateByPrimaryKey(AttendancePo record);
 
     int selectCount(@Param("openid") String openid);
+
+    int selectCountToday(@Param("openid") String openid);
 }

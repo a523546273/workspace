@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.whw.layui.dao.WxuserValidateLogsDao">
+    <resultMap id="BaseResultMap" type="com.whw.layui.po.WxuserValidateLogsPo">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="openid" jdbcType="VARCHAR" property="openid"/>
+        <result column="invite_code" jdbcType="VARCHAR" property="inviteCode"/>
+        <result column="create_date" jdbcType="TIMESTAMP" property="createDate"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, openid, invite_code, create_date
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from wxuser_validate_logs
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from wxuser_validate_logs
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.whw.layui.po.WxuserValidateLogsPo"
+            useGeneratedKeys="true">
+    insert into wxuser_validate_logs (openid, invite_code, create_date
+      )
+    values (#{openid,jdbcType=VARCHAR}, #{inviteCode,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.whw.layui.po.WxuserValidateLogsPo"
+            useGeneratedKeys="true">
+        insert into wxuser_validate_logs
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="openid != null">
+                openid,
+            </if>
+            <if test="inviteCode != null">
+                invite_code,
+            </if>
+            <if test="createDate != null">
+                create_date,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="openid != null">
+                #{openid,jdbcType=VARCHAR},
+            </if>
+            <if test="inviteCode != null">
+                #{inviteCode,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null">
+                #{createDate,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.whw.layui.po.WxuserValidateLogsPo">
+        update wxuser_validate_logs
+        <set>
+            <if test="openid != null">
+                openid = #{openid,jdbcType=VARCHAR},
+            </if>
+            <if test="inviteCode != null">
+                invite_code = #{inviteCode,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null">
+                create_date = #{createDate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.whw.layui.po.WxuserValidateLogsPo">
+    update wxuser_validate_logs
+    set openid = #{openid,jdbcType=VARCHAR},
+      invite_code = #{inviteCode,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+    <select id="selectByOpenidAndCode" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from wxuser_validate_logs
+        where openid = #{openid,jdbcType=VARCHAR}
+        and invite_code = #{inviteCode,jdbcType=VARCHAR}
+
+    </select>
+</mapper>

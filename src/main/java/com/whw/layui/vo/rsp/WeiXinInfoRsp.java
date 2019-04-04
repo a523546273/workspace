@@ -16,6 +16,8 @@ public class WeiXinInfoRsp {
 
     private int count;
 
+    private String inviteCode;
+
     public String getSession_key() {
         return session_key;
     }
@@ -46,5 +48,13 @@ public class WeiXinInfoRsp {
 
     public void setCount(int count) {
         this.count = count;
+    }
+
+    public String getInviteCode() {
+        return inviteCode;
+    }
+
+    public void setInviteCode(String inviteCode) {
+        this.inviteCode = inviteCode;
     }
 }

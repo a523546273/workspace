@@ -19,11 +19,12 @@
         <result column="tagid_list" jdbcType="VARCHAR" property="tagidList"/>
         <result column="session_key" jdbcType="VARCHAR" property="sessionKey"/>
         <result column="member_time" jdbcType="TIMESTAMP" property="memberTime"/>
+        <result column="invite_code" jdbcType="VARCHAR" property="inviteCode"/>
 
     </resultMap>
     <sql id="Base_Column_List">
     id, subscribe, openid, nickname, sex, city, country, province, `language`, headimgurl, 
-    subscribe_time, unionid, remark, groupid, tagid_list, session_key,member_time
+    subscribe_time, unionid, remark, groupid, tagid_list, session_key,member_time,invite_code
   </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select
@@ -50,13 +51,13 @@
       sex, city, country, 
       province, `language`, headimgurl, 
       subscribe_time, unionid, remark, 
-      groupid, tagid_list,session_key,member_time)
+      groupid, tagid_list,session_key,member_time,invite_code)
     values (#{subscribe,jdbcType=INTEGER}, #{openid,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR}, 
       #{sex,jdbcType=INTEGER}, #{city,jdbcType=VARCHAR}, #{country,jdbcType=VARCHAR}, 
       #{province,jdbcType=VARCHAR}, #{language,jdbcType=VARCHAR}, #{headimgurl,jdbcType=VARCHAR}, 
       #{subscribeTime,jdbcType=VARCHAR}, #{unionid,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
       #{groupid,jdbcType=INTEGER}, #{tagidList,jdbcType=VARCHAR} ,#{sessionKey,jdbcType=VARCHAR}
-       ,#{memberTime,jdbcType=TIMESTAMP})
+       ,#{memberTime,jdbcType=TIMESTAMP},#{inviteCode,jdbcType=VARCHAR})
   </insert>
     <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.whw.layui.po.WeiXinUserInfoPo"
             useGeneratedKeys="true">
@@ -218,4 +219,11 @@
       member_time = #{memberTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+    <select id="getByInviteCode" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from wxuserinfo
+        where invite_code = #{inviteCode,jdbcType=VARCHAR}
+    </select>
 </mapper>

@@ -64,4 +64,9 @@
   <select id="selectCount" resultType="java.lang.Integer">
   select count(1) from attendance where openid=#{openid}
   </select>
+
+  <select id="selectCountToday" resultType="java.lang.Integer">
+  select count(1) from attendance where openid=#{openid}
+   and date_format(create_date,'%Y-%m-%d') = date_format(sysdate(),'%Y-%m-%d')
+  </select>
 </mapper>

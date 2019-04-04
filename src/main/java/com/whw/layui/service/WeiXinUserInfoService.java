@@ -1,6 +1,7 @@
 package com.whw.layui.service;
 
 import com.whw.layui.po.WeiXinUserInfoPo;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Created with IDEA
@@ -15,6 +16,13 @@ public interface WeiXinUserInfoService {
      * @param weiXinUserInfoPo
      */
     void add(WeiXinUserInfoPo weiXinUserInfoPo);
+
+    /**
+     * 修改用户信息
+     *
+     * @param weiXinUserInfoPo
+     */
+    void update(WeiXinUserInfoPo weiXinUserInfoPo);
 
     /**
      * 根据openid获取用户信息
@@ -35,5 +43,14 @@ public interface WeiXinUserInfoService {
      * @param openid
      */
     void downShare(String openid);
+
+    /**
+     * 验证用户邀请码
+     * @param openid 用户id
+     * @param inviteCode 邀请码
+     * @return
+     */
+    @Transactional
+    boolean validateCode(String openid,String inviteCode)  throws Exception;
 
 }
