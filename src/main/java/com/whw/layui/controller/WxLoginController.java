@@ -1,12 +1,10 @@
 package com.whw.layui.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.whw.layui.config.RedisConfig;
 import com.whw.layui.enums.ResultEnums;
 import com.whw.layui.po.WeiXinUserInfoPo;
 import com.whw.layui.service.AttendanceService;
 import com.whw.layui.service.WeiXinUserInfoService;
-import com.whw.layui.utils.CodeUtils;
 import com.whw.layui.utils.HttpClientUtil;
 import com.whw.layui.utils.ResponseData;
 import com.whw.layui.utils.ResponseDataUtil;
@@ -44,8 +42,8 @@ public class WxLoginController {
     @Value("${wx.subscribe}")
     private Integer subscribe;
 
-    @Autowired
-    private RedisConfig redisConfig;
+    /*@Autowired
+    private RedisConfig redisConfig;*/
 
     @Autowired
     private WeiXinUserInfoService weiXinUserInfoService;

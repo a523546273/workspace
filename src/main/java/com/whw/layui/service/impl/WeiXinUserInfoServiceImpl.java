@@ -10,6 +10,8 @@ import com.whw.layui.utils.CodeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+
 /**
  * Created with IDEA
  * author:wanghongwei
@@ -88,6 +90,7 @@ public class WeiXinUserInfoServiceImpl implements WeiXinUserInfoService {
         WxuserValidateLogsPo wxuserValidateLogsPo1=new WxuserValidateLogsPo();
         wxuserValidateLogsPo1.setOpenid(openid);
         wxuserValidateLogsPo1.setInviteCode(inviteCode);
+        wxuserValidateLogsPo1.setCreateDate(new Date());
         wxuserValidateLogsDao.insert(wxuserValidateLogsPo1);
         return true;
     }

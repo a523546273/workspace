@@ -1,6 +1,5 @@
 package com.whw.layui;
 
-import com.whw.layui.config.RedisConfig;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,14 +13,13 @@ import javax.sql.DataSource;
 @SpringBootTest
 public class LayuiApplicationTests {
 
-    @Autowired
-    private RedisConfig redisConfig;
+    /*@Autowired
+    private RedisConfig redisConfig;*/
 
     @Test
     public void contextLoads() {
         //redisConfig.set("1111","22222");
 
-        System.out.println(redisConfig.get("1111"));
     }
 
 
